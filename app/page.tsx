@@ -73,7 +73,7 @@ export default async function LandingPage() {
               href="/signup"
               className="text-sm font-medium text-white bg-accent hover:bg-accent-600 px-4 py-2 rounded-xl shadow-xs active:scale-[0.98] transition-all"
             >
-              Get started
+              Start planning
             </Link>
           </div>
         </div>
@@ -106,7 +106,7 @@ export default async function LandingPage() {
                   href="/signup"
                   className="flex items-center justify-center gap-2 px-6 py-3.5 rounded-2xl bg-accent hover:bg-accent-600 text-white font-medium text-base shadow-xs active:scale-[0.98] transition-all"
                 >
-                  <span>Get started</span>
+                  <span>Start planning</span>
                   <ArrowRight className="w-4 h-4" />
                 </Link>
                 <a
@@ -516,7 +516,7 @@ export default async function LandingPage() {
               href="/signup"
               className="w-full sm:w-auto flex items-center justify-center gap-2 px-8 py-3.5 rounded-2xl bg-accent hover:bg-accent-600 text-white font-medium text-base shadow-xs active:scale-[0.98] transition-all"
             >
-              <span>Get started for free</span>
+              <span>Start planning for free</span>
               <ArrowRight className="w-4 h-4" />
             </Link>
             <Link
