@@ -60,38 +60,40 @@ export default function ForgotPasswordPage() {
   };
 
   return (
-    <div className="bg-white rounded-2xl border border-slate-200/80 p-6 sm:p-8 shadow-sm">
+    <div className="bg-white rounded-2xl border border-surface-border p-6 sm:p-8 lg:p-10 shadow-xs">
       <div className="mb-6">
         <Link
           href="/login"
-          className="inline-flex items-center gap-1.5 text-xs text-slate-500 hover:text-slate-800 mb-3"
+          className="inline-flex items-center gap-1.5 text-xs text-slate-500 hover:text-ink mb-3 transition-colors"
         >
           <ArrowLeft className="w-3.5 h-3.5" />
           <span>Back to login</span>
         </Link>
-        <h2 className="text-xl font-bold text-slate-900 tracking-tight">Reset your password</h2>
-        <p className="text-sm text-slate-500 mt-1">
+        <h2 className="font-serif text-2xl sm:text-3xl font-normal text-ink tracking-tight">
+          Reset your password
+        </h2>
+        <p className="text-sm text-slate-600 mt-1.5 leading-relaxed">
           Enter the email associated with your account and we&apos;ll send you a link to reset your password.
         </p>
       </div>
 
       {errorMsg && (
-        <div className="mb-5 p-3.5 rounded-xl bg-rose-50 border border-rose-200 text-xs text-rose-800 flex items-start gap-2.5">
-          <AlertCircle className="w-4 h-4 text-rose-600 flex-shrink-0 mt-0.5" />
+        <div className="mb-5 p-3.5 rounded-xl bg-red-50 border border-red-200 text-xs text-red-800 flex items-start gap-2.5">
+          <AlertCircle className="w-4 h-4 text-red-600 shrink-0 mt-0.5" />
           <span>{errorMsg}</span>
         </div>
       )}
 
       {successMsg && (
         <div className="mb-5 p-3.5 rounded-xl bg-emerald-50 border border-emerald-200 text-xs text-emerald-800 flex items-start gap-2.5">
-          <CheckCircle2 className="w-4 h-4 text-emerald-600 flex-shrink-0 mt-0.5" />
+          <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
           <span>{successMsg}</span>
         </div>
       )}
 
       <form onSubmit={handleResetRequest} className="space-y-4">
         <div>
-          <label className="block text-xs font-semibold text-slate-700 mb-1.5" htmlFor="email">
+          <label className="block text-xs font-semibold text-ink mb-1.5" htmlFor="email">
             Email address
           </label>
           <div className="relative">
@@ -104,7 +106,7 @@ export default function ForgotPasswordPage() {
               placeholder="you@example.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full pl-10 pr-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-hidden focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 placeholder:text-slate-400 transition-colors"
+              className="w-full pl-10 pr-3.5 py-2.5 rounded-xl border border-surface-border text-sm focus:outline-hidden focus:ring-2 focus:ring-ink focus:border-ink placeholder:text-slate-400 transition-colors"
             />
           </div>
         </div>
@@ -112,7 +114,7 @@ export default function ForgotPasswordPage() {
         <button
           type="submit"
           disabled={loading}
-          className="w-full mt-2 flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 active:scale-[0.99] text-white font-semibold text-sm transition-all focus:outline-hidden focus:ring-2 focus:ring-emerald-500 shadow-sm shadow-emerald-600/25 disabled:opacity-60 disabled:cursor-not-allowed"
+          className="w-full mt-2 flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-accent hover:bg-accent-600 active:scale-[0.99] text-white font-medium text-sm transition-all focus:outline-hidden focus:ring-2 focus:ring-ink shadow-xs disabled:opacity-60 disabled:cursor-not-allowed"
         >
           {loading ? (
             <Loader2 className="w-4 h-4 animate-spin text-white" />
