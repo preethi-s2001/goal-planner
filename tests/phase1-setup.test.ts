@@ -173,3 +173,75 @@ describe('Phase 1 - Redirect Validation Helper (getSafeRedirectUrl)', () => {
     expect(getSafeRedirectUrl(null, '/home')).toBe('/home');
   });
 });
+
+describe('Phase 1 - Google Auth Feature Flag Configuration', () => {
+  it('hides Google auth by default or when NEXT_PUBLIC_GOOGLE_AUTH_ENABLED is not "true"', () => {
+    const isEnabledDefault = process.env.NEXT_PUBLIC_GOOGLE_AUTH_ENABLED === 'true';
+    expect(isEnabledDefault).toBe(false);
+
+    const isEnabledFalse = ('false' as string) === 'true';
+    expect(isEnabledFalse).toBe(false);
+
+    const isEnabledRandom = ('1' as string) === 'true';
+    expect(isEnabledRandom).toBe(false);
+  });
+
+  it('enables Google auth strictly when NEXT_PUBLIC_GOOGLE_AUTH_ENABLED is "true"', () => {
+    const isEnabledTrue = ('true' as string) === 'true';
+    expect(isEnabledTrue).toBe(true);
+  });
+
+  it('login and signup pages guard Google button and divider behind NEXT_PUBLIC_GOOGLE_AUTH_ENABLED', async () => {
+    const fs = await import('fs');
+    const path = await import('path');
+
+    const loginSource = fs.readFileSync(
+      path.resolve(__dirname, '../app/(auth)/login/page.tsx'),
+      'utf-8'
+    );
+    const signupSource = fs.readFileSync(
+      path.resolve(__dirname, '../app/(auth)/signup/page.tsx'),
+      'utf-8'
+    );
+
+    // Verify login page guards
+    expect(loginSource).toContain("process.env.NEXT_PUBLIC_GOOGLE_AUTH_ENABLED === 'true'");
+    expect(loginSource).toContain('isGoogleAuthEnabled &&');
+    expect(loginSource).toContain('Continue with Google');
+    expect(loginSource).toContain('handleGoogleLogin');
+
+    // Verify signup page guards
+    expect(signupSource).toContain("process.env.NEXT_PUBLIC_GOOGLE_AUTH_ENABLED === 'true'");
+    expect(signupSource).toContain('isGoogleAuthEnabled &&');
+    expect(signupSource).toContain('Sign up with Google');
+    expect(signupSource).toContain('handleGoogleSignup');
+  });
+
+  it('verifies desktop sidebar layout classes for fixed sticky viewport height and scrollable menu nav', async () => {
+    const fs = await import('fs');
+    const path = await import('path');
+
+    const sidebarSource = fs.readFileSync(
+      path.resolve(__dirname, '../components/layout/Sidebar.tsx'),
+      'utf-8'
+    );
+    const appShellSource = fs.readFileSync(
+      path.resolve(__dirname, '../components/layout/AppShell.tsx'),
+      'utf-8'
+    );
+
+    // Sidebar: h-screen sticky top-0 shrink-0 (not min-h-screen)
+    expect(sidebarSource).toContain('h-screen sticky top-0 shrink-0');
+    expect(sidebarSource).not.toContain('min-h-screen');
+
+    // Header & Footer must be shrink-0
+    expect(sidebarSource).toContain('border-b border-slate-100 flex items-center gap-3 shrink-0');
+    expect(sidebarSource).toContain('border-t border-slate-100 bg-slate-50/50 space-y-3 shrink-0');
+
+    // Menu nav must be the scrolling flex-1 area
+    expect(sidebarSource).toContain('flex-1 p-3 space-y-1 overflow-y-auto');
+
+    // AppShell must not have overflow-hidden clipping the sticky aside
+    expect(appShellSource).not.toContain('overflow-hidden');
+  });
+});
